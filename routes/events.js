@@ -16,7 +16,7 @@ router.get("/", function(req, res){
 });
 
 // получение одного мероприятия по id
-router.get("/events/:id", function(req, res){
+router.get("/:id", function(req, res){
       
     var id = req.params.id; // получаем id
     var content = fs.readFileSync(file, "utf8");
@@ -38,7 +38,7 @@ router.get("/events/:id", function(req, res){
     }
 });
 // получение отправленных данных
-router.post("/events", jsonParser, function (req, res) {
+router.post("/", jsonParser, function (req, res) {
      
     if(!req.body) return res.sendStatus(400);
      
@@ -61,7 +61,7 @@ router.post("/events", jsonParser, function (req, res) {
     res.send(event);
 });
  // удаление мероприятия по id
-router.delete("/events/:id", function(req, res){
+router.delete("/:id", function(req, res){
       
     var id = req.params.id;
     var data = fs.readFileSync(file, "utf8");
@@ -87,7 +87,7 @@ router.delete("/events/:id", function(req, res){
     }
 });
 // изменение мероприятия
-router.put("/events", jsonParser, function(req, res){
+router.put("/", jsonParser, function(req, res){
       
     if(!req.body) return res.sendStatus(400);
      
