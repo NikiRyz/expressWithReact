@@ -43,8 +43,24 @@ router.post("/", jsonParser, function (req, res) {
     if(!req.body) return res.sendStatus(400);
      
     var eventName = req.body.name;
-    var eventAge = req.body.age;
-    var event = {name: eventName, age: eventAge};
+    var eventDate = req.body.data;
+    var eventTitle= req.body. title;
+    var eventCategory = req.body.category;
+    var eventSale= req.body.sale;
+    var eventPhone= req.body.phone;
+    var eventAddress= req.body.address;
+    var eventPrice= req.body.price;
+   
+
+    var event = {
+    name: eventName, 
+    date: eventDate,
+    title:eventTitle,
+    category:eventCategory,
+    sale: eventSale,
+    phone:eventPhone,
+    address: eventAddress,
+    price:eventPrice};
      
     var data = fs.readFileSync(file, "utf8");
     var events = JSON.parse(data);
