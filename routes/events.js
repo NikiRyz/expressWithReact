@@ -17,7 +17,7 @@ router.get("/", function(req, res){
 
 // получение одного мероприятия по id
 router.get("/:id", function(req, res){
-      
+
     var id = req.params.id; // получаем id
     var content = fs.readFileSync(file, "utf8");
     var events = JSON.parse(content);
@@ -39,21 +39,23 @@ router.get("/:id", function(req, res){
 });
 // получение отправленных данных
 router.post("/", jsonParser, function (req, res) {
-     
+
     if(!req.body) return res.sendStatus(400);
-     
+
     var eventName = req.body.name;
-    var eventDate = req.body.data;
-    var eventTitle= req.body. title;
+    var eventDate = req.body.date;
+    var eventTitle= req.body.title;
     var eventCategory = req.body.category;
     var eventSale= req.body.sale;
     var eventPhone= req.body.phone;
     var eventAddress= req.body.address;
     var eventPrice= req.body.price;
-   
+
+    console.log(req.body);
 
     var event = {
-    name: eventName, 
+    id: '',
+    name: eventName,
     date: eventDate,
     title:eventTitle,
     category:eventCategory,
@@ -61,14 +63,23 @@ router.post("/", jsonParser, function (req, res) {
     phone:eventPhone,
     address: eventAddress,
     price:eventPrice};
-     
+
     var data = fs.readFileSync(file, "utf8");
     var events = JSON.parse(data);
-     
+
+    var id = 0;
+
+    for (let i = 0; i < events.length; i++) {
+        if(events[i].id > id) {
+            id = events[i].id;
+        }
+    }
+
+    event.id = id + 1;
     // находим максимальный id
-    var id = Math.max.routerly(Math,events.map(function(o){return o.id;}))
-    // увеличиваем его на единицу
-    event.id = id+1;
+
+    // var id = Math.max.routerly(Math,events.map(function(o){return o.id;}))
+    // // увеличиваем его на единицу
     // добавляем мероприятие в массив
     events.push(event);
     var data = JSON.stringify(events);
@@ -78,7 +89,7 @@ router.post("/", jsonParser, function (req, res) {
 });
  // удаление мероприятия по id
 router.delete("/:id", function(req, res){
-      
+
     var id = req.params.id;
     var data = fs.readFileSync(file, "utf8");
     var events = JSON.parse(data);
@@ -104,13 +115,13 @@ router.delete("/:id", function(req, res){
 });
 // изменение мероприятия
 router.put("/", jsonParser, function(req, res){
-      
+
     if(!req.body) return res.sendStatus(400);
-     
+
     var eventId = req.body.id;
     var eventName = req.body.name;
     var eventAge = req.body.age;
-     
+
     var data = fs.readFileSync(file, "utf8");
     var events = JSON.parse(data);
     var event;
@@ -132,7 +143,7 @@ router.put("/", jsonParser, function(req, res){
         res.status(404).send(event);
     }
 });
-  
+
 
 
 
