@@ -9,14 +9,14 @@ var jsonParser = bodyParser.json();
 var file=path.join(__dirname, '../public/events.json');
 
 //получение всех мероприятий
-router.get("/", function(req, res){
+router.get("/events", function(req, res){
     var content = fs.readFileSync(file, 'utf8');
     var events = JSON.parse(content);
     res.send(events);
 });
 
 // получение одного мероприятия по id
-router.get("/:id", function(req, res){
+router.get("/events/:id", function(req, res){
 
     var id = req.params.id; // получаем id
     var content = fs.readFileSync(file, "utf8");
@@ -38,31 +38,39 @@ router.get("/:id", function(req, res){
     }
 });
 // получение отправленных данных
-router.post("/", jsonParser, function (req, res) {
+router.post("/events_add", jsonParser, function (req, res) {
+
+    
+  res.render('index', { title: 'Вы успешно добавили мероприятие!' });
 
     if(!req.body) return res.sendStatus(400);
 
-    var eventName = req.body.name;
+    var eventOrganizer = req.body.organizer;
     var eventDate = req.body.date;
     var eventTitle= req.body.title;
     var eventCategory = req.body.category;
     var eventSale= req.body.sale;
-    var eventPhone= req.body.phone;
+    var eventTime= req.body.time;
     var eventAddress= req.body.address;
     var eventPrice= req.body.price;
+    var eventDescription=req.body.description;
+    var eventLink=req.body.link;
 
     console.log(req.body);
 
     var event = {
     id: '',
-    name: eventName,
+    organizer: eventOrganizer,
     date: eventDate,
     title:eventTitle,
     category:eventCategory,
     sale: eventSale,
-    phone:eventPhone,
+    time:eventTime,
     address: eventAddress,
-    price:eventPrice};
+    price:eventPrice,
+    description:eventDescription,
+    link: eventLink
+};
 
     var data = fs.readFileSync(file, "utf8");
     var events = JSON.parse(data);
@@ -76,11 +84,6 @@ router.post("/", jsonParser, function (req, res) {
     }
 
     event.id = id + 1;
-    // находим максимальный id
-
-    // var id = Math.max.routerly(Math,events.map(function(o){return o.id;}))
-    // // увеличиваем его на единицу
-    // добавляем мероприятие в массив
     events.push(event);
     var data = JSON.stringify(events);
     // перезаписываем файл с новыми данными
