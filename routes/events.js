@@ -111,7 +111,8 @@ router.delete("/delete/:id", function(req, res) {
   }
 });
 // изменение мероприятия
-router.put("/event/change_event", jsonParser, function(req, res) {
+router.put("/events/change_event", jsonParser, function(req, res) {
+  res.render("index", { title: "Вы успешно изменили мероприятие" });
   if (!req.body) return res.sendStatus(400);
 
   var eventId = req.body.id;
