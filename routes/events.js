@@ -86,13 +86,14 @@ router.post("/events_add", jsonParser, function(req, res) {
   fs.writeFileSync(file, data);
   res.send(event);
 });
+
 // удаление мероприятия по id
-router.delete("/:id", function(req, res) {
+router.delete("/delete/:id", function(req, res) {
   var id = req.params.id;
   var data = fs.readFileSync(file, "utf8");
   var events = JSON.parse(data);
   var index = -1;
-  // находим индекс пользователя в массиве
+  // находим индекс мероприятия в массиве
   for (var i = 0; i < events.length; i++) {
     if (events[i].id == id) {
       index = i;
@@ -100,11 +101,11 @@ router.delete("/:id", function(req, res) {
     }
   }
   if (index > -1) {
-    // удаляем пользователя из массива по индексу
+    // удаляем мероприятие из массива по индексу
     var event = events.splice(index, 1)[0];
     var data = JSON.stringify(events);
     fs.writeFileSync(file, data);
-    // отправляем удаленного пользователя
+    // отправляем удаленное мероприятие
     res.send(event);
   } else {
     res.status(404).send();
