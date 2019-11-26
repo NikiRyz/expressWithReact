@@ -52,7 +52,6 @@ router.post("/events_add", jsonParser, function(req, res) {
   var eventDescription = req.body.description;
   var eventLink = req.body.link;
 
-  console.log(req.body);
 
   var event = {
     id: "",
@@ -112,12 +111,20 @@ router.delete("/delete/:id", function(req, res) {
   }
 });
 // изменение мероприятия
-router.put("/", jsonParser, function(req, res) {
+router.put("/event/change_event", jsonParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
 
   var eventId = req.body.id;
-  var eventName = req.body.name;
-  var eventAge = req.body.age;
+  var eventOrganizer = req.body.organizer;
+  var eventDate = req.body.date;
+  var eventTitle = req.body.title;
+  var eventCategory = req.body.category;
+  var eventSale = req.body.sale;
+  var eventTime = req.body.time;
+  var eventAddress = req.body.address;
+  var eventPrice = req.body.price;
+  var eventDescription = req.body.description;
+  var eventLink = req.body.link;
 
   var data = fs.readFileSync(file, "utf8");
   var events = JSON.parse(data);
@@ -130,8 +137,16 @@ router.put("/", jsonParser, function(req, res) {
   }
   // изменяем данные мероприятия
   if (event) {
-    event.age = eventAge;
-    event.name = eventName;
+    event.organizer = eventOrganizer,
+    event.date= eventDate,
+    event.title= eventTitle,
+    event.category= eventCategory,
+    event.sale= eventSale,
+    event.time= eventTime,
+    event.address= eventAddress,
+    event.price= eventPrice,
+    event.description= eventDescription,
+    event.link= eventLink
     var data = JSON.stringify(events);
     fs.writeFileSync(file, data);
     res.send(event);
