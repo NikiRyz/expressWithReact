@@ -112,19 +112,16 @@ router.delete("/delete/:id", function(req, res) {
 });
 // изменение мероприятия
 router.post("/change_event", jsonParser, function(req, res) {
-  function isEmpty(str) {
-    if (str.trim() == '') 
-      return true;
-      
-    return false;
-  }
 
   res.render("index", { title: "Вы успешно изменили мероприятие" });
   if (!req.body) return res.sendStatus(400);
 
+  console.log(req.body);
+
+
   for (var key in req.body) {
-    if (isEmpty(req.body[key])) {
-      var eventId = key;
+    if (key == "id") {
+      var eventId = req.body[key];
     }
   }
 
