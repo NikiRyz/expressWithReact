@@ -52,6 +52,7 @@ router.post("/events_add", jsonParser, function(req, res) {
   var eventDescription = req.body.description;
   var eventLink = req.body.link;
 
+
   var event = {
     id: "",
     organizer: eventOrganizer,
@@ -110,11 +111,20 @@ router.delete("/delete/:id", function(req, res) {
   }
 });
 // изменение мероприятия
-router.put("/", jsonParser, function(req, res) {
+router.post("/change_event", jsonParser, function(req, res) {
+
   res.render("index", { title: "Вы успешно изменили мероприятие" });
   if (!req.body) return res.sendStatus(400);
 
-  var eventId = req.body.id;
+  console.log(req.body);
+
+
+  for (var key in req.body) {
+    if (key == "id") {
+      var eventId = req.body[key];
+    }
+  }
+
   var eventOrganizer = req.body.organizer;
   var eventDate = req.body.date;
   var eventTitle = req.body.title;
@@ -137,16 +147,16 @@ router.put("/", jsonParser, function(req, res) {
   }
   // изменяем данные мероприятия
   if (event) {
-    (event.organizer = eventOrganizer),
-      (event.date = eventDate),
-      (event.title = eventTitle),
-      (event.category = eventCategory),
-      (event.sale = eventSale),
-      (event.time = eventTime),
-      (event.address = eventAddress),
-      (event.price = eventPrice),
-      (event.description = eventDescription),
-      (event.link = eventLink);
+    event.organizer = eventOrganizer,
+    event.date= eventDate,
+    event.title= eventTitle,
+    event.category= eventCategory,
+    event.sale= eventSale,
+    event.time= eventTime,
+    event.address= eventAddress,
+    event.price= eventPrice,
+    event.description= eventDescription,
+    event.link= eventLink
     var data = JSON.stringify(events);
     fs.writeFileSync(file, data);
     res.send(event);
