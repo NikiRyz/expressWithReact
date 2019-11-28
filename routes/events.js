@@ -52,7 +52,6 @@ router.post("/events_add", jsonParser, function(req, res) {
   var eventDescription = req.body.description;
   var eventLink = req.body.link;
 
-
   var event = {
     id: "",
     organizer: eventOrganizer,
@@ -111,7 +110,7 @@ router.delete("/delete/:id", function(req, res) {
   }
 });
 // изменение мероприятия
-router.put("/events/change_event", jsonParser, function(req, res) {
+router.put("/", jsonParser, function(req, res) {
   res.render("index", { title: "Вы успешно изменили мероприятие" });
   if (!req.body) return res.sendStatus(400);
 
@@ -138,16 +137,16 @@ router.put("/events/change_event", jsonParser, function(req, res) {
   }
   // изменяем данные мероприятия
   if (event) {
-    event.organizer = eventOrganizer,
-    event.date= eventDate,
-    event.title= eventTitle,
-    event.category= eventCategory,
-    event.sale= eventSale,
-    event.time= eventTime,
-    event.address= eventAddress,
-    event.price= eventPrice,
-    event.description= eventDescription,
-    event.link= eventLink
+    (event.organizer = eventOrganizer),
+      (event.date = eventDate),
+      (event.title = eventTitle),
+      (event.category = eventCategory),
+      (event.sale = eventSale),
+      (event.time = eventTime),
+      (event.address = eventAddress),
+      (event.price = eventPrice),
+      (event.description = eventDescription),
+      (event.link = eventLink);
     var data = JSON.stringify(events);
     fs.writeFileSync(file, data);
     res.send(event);
